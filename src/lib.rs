@@ -2,11 +2,7 @@ pub mod logfermi;
 
 use numpy::{IntoPyArray, PyArray2, PyReadonlyArray2};
 use pyo3::prelude::{pymodule, PyModule, PyResult, Python};
-// NOTE
-// * numpy defaults to np.float64, if you use other type than f64 in Rust
-//   you will have to change type in Python before calling the Rust function.
 
-// The name of the module must be the same as the rust package name
 #[pymodule]
 fn aseext(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
     #[pyfn(m)]
