@@ -1,4 +1,4 @@
-from aseext import aseext as _ext
+from ase_extension import ase_extension as _ext
 
 
 class LogFermiWallPotential:

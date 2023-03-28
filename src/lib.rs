@@ -4,7 +4,7 @@ use numpy::{IntoPyArray, PyArray2, PyReadonlyArray2};
 use pyo3::prelude::{pymodule, PyModule, PyResult, Python};
 
 #[pymodule]
-fn aseext(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
+fn ase_extension(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
     #[pyfn(m)]
     fn log_fermi<'py>(
         _py: Python<'py>,
