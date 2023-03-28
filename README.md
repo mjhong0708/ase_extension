@@ -22,4 +22,4 @@ pip install git+https://github.com/mjhong0708/aseext
 
 ## User guide
 
-See wiki.
+See [wiki](https://github.com/mjhong0708/aseext/wiki).
