@@ -18,6 +18,11 @@ fn centroid(pos: &ArrayView2<f64>) -> Array1<f64> {
     pos.mean_axis(Axis(0)).unwrap()
 }
 
+/// Computes minimum root mean square deviation (RMSD) between two sets of points.
+/// The optimal rotation and translation to minimize the RMSD are computed by
+/// quaternion approach.
+/// Gradient of the RMSD with respect pos_1 is also computed, which is often required
+/// for optimization problems.
 #[allow(non_snake_case)]
 pub fn compute_minimum_rmsd(
     pos_1: &ArrayView2<f64>,
@@ -70,23 +75,12 @@ fn find_rotation_matrix(pos_1: &ArrayView2<f64>, pos2: &ArrayView2<f64>) -> Arra
     let R32 = R[[2, 1]];
     let R33 = R[[2, 2]];
 
+    #[rustfmt::skip]
     let F = Matrix4::new(
-        R11 + R22 + R33,
-        R23 - R32,
-        R31 - R13,
-        R12 - R21,
-        R23 - R32,
-        R11 - R22 - R33,
-        R12 + R21,
-        R13 + R31,
-        R31 - R13,
-        R12 + R21,
-        -R11 + R22 - R33,
-        R23 + R32,
-        R12 - R21,
-        R13 + R31,
-        R23 + R32,
-        -R11 - R22 + R33,
+        R11 + R22 + R33,       R23 - R32,        R31 - R13,        R12 - R21,
+              R23 - R32, R11 - R22 - R33,        R12 + R21,        R13 + R31,
+              R31 - R13,       R12 + R21, -R11 + R22 - R33,        R23 + R32,
+              R12 - R21,       R13 + R31,        R23 + R32, -R11 - R22 + R33,
     );
 
     let eig = F.symmetric_eigen();
