@@ -1,10 +1,13 @@
 # ase_extension
 
-Extension to ASE(atomistic simulation environment)
+Extension to ASE(atomistic simulation environment), written in Rust and Python.
 
 ## Features
 
 - `ase_extension.constraints.LogFermiWallPotential`: Constrain atoms in sphere with logfermi potential
+- `ase_extension.geometry.RMSD`: Minimum RMSD between molecules and its gradient
+
+Note that these features does not support PBC properly.
 
 ## Installation
 
