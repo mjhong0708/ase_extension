@@ -10,8 +10,7 @@ pub struct RMSDResult {
 
 fn rmsd(x: &ArrayView2<f64>, y: &ArrayView2<f64>) -> f64 {
     let delta_r = x - y;
-    let rmsd = (delta_r.mapv(|x| x * x).sum_axis(Axis(1)).mean().unwrap()).sqrt();
-    rmsd
+    (delta_r.mapv(|x| x * x).sum_axis(Axis(1)).mean().unwrap()).sqrt()
 }
 
 fn centroid(pos: &ArrayView2<f64>) -> Array1<f64> {
@@ -29,8 +28,8 @@ pub fn compute_minimum_rmsd(
     pos_2: &ArrayView2<f64>,
     compute_grad: bool,
 ) -> RMSDResult {
-    let mut pos_1 = pos_1.to_owned().clone();
-    let mut pos_2 = pos_2.to_owned().clone();
+    let mut pos_1 = pos_1.to_owned();
+    let mut pos_2 = pos_2.to_owned();
     let centroid_1 = centroid(&pos_1.view());
     let centroid_2 = centroid(&pos_2.view());
     pos_1 -= &centroid_1;
@@ -40,11 +39,11 @@ pub fn compute_minimum_rmsd(
     let rmsd_val = rmsd(&pos_1.view(), &pos_2_rotated.view());
     let (rmsd_val, rmsd_grad) = match compute_grad {
         true => {
-            let n = *&pos_1.shape()[0] as f64;
+            let n = pos_1.shape()[0] as f64;
             let mut rmsd_grad = Array2::zeros(pos_1.raw_dim());
             for (i, mut row) in rmsd_grad.axis_iter_mut(Axis(0)).enumerate() {
                 let delta_r = &pos_1.row(i) - &pos_2_rotated.row(i);
-                row += &(&delta_r / (n * &rmsd_val));
+                row += &(&delta_r / (n * rmsd_val));
             }
             (rmsd_val, Some(rmsd_grad))
         }

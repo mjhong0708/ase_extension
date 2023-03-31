@@ -6,8 +6,9 @@ Extension to ASE(atomistic simulation environment), written in Rust and Python.
 
 - `ase_extension.constraints.LogFermiWallPotential`: Constrain atoms in sphere with logfermi potential
 - `ase_extension.geometry.RMSD`: Minimum RMSD between molecules and its gradient
+- `ase_extension.neighborlist.neighbor_list`: Drop-in replacement for `ase.neighborlist.neighbor_list`.
 
-Note that these features does not support PBC properly.
+Note that `LogFermiWallPotential` and  `RMSD` does not support PBC yet.
 
 ## Installation
 
@@ -30,5 +31,4 @@ See [wiki](https://github.com/mjhong0708/ase_extension/wiki).
 
 ## Features to add
 
-- [ ] Neighbor list (using [gchemol-neighbors](https://crates.io/crates/gchemol-neighbors))
 - [ ] Molecule packer for MD (like packmol, but supports PBC)
