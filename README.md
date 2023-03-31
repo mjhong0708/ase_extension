@@ -26,3 +26,9 @@ pip install git+https://github.com/mjhong0708/ase_extension
 ## User guide
 
 See [wiki](https://github.com/mjhong0708/ase_extension/wiki).
+
+
+## Features to add
+
+- [ ] Neighbor list (using [gchemol-neighbors](https://crates.io/crates/gchemol-neighbors))
+- [ ] Molecule packer for MD (like packmol, but supports PBC)
