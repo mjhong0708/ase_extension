@@ -81,8 +81,7 @@ fn ase_extension(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
             neighbor_list
                 .offsets
                 .iter()
-                .map(|x| x.iter().map(|x| *x as f64).collect::<Vec<f64>>())
-                .flatten()
+                .flat_map(|x| x.to_vec())
                 .collect(),
         )
         .expect("Failed to convert offsets to ndarray");

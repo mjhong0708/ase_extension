@@ -1,6 +1,6 @@
 use ndarray::{Array2, ArrayView2, Axis};
 
-const K_B: f64 = 8.617330337217213e-05;
+const K_B: f64 = 8.617_330_337_217_213e-5;
 
 pub fn log_fermi(
     positions: &ArrayView2<f64>,
@@ -20,7 +20,7 @@ pub fn log_fermi(
     let e = e_i.sum();
     let grad_multiplier = k_t * beta * &exp_term / (&dists * (1.0 + &exp_term) + eps);
     // Multiply each element of grad_multiplier by the corresponding row of positions
-    let mut e_grad = positions.clone().into_owned();
+    let mut e_grad = (*positions).into_owned();
     for (i, mut row) in e_grad.axis_iter_mut(Axis(0)).enumerate() {
         row *= grad_multiplier[i];
     }

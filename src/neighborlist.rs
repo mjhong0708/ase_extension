@@ -17,7 +17,7 @@ pub fn construct_neighbor_list(
     let mut nh = Neighborhood::new();
     nh.update(points.iter().enumerate().map(|(i, &v)| (i, v)));
     if let Some(cell) = cell {
-        nh.set_lattice(cell.clone());
+        nh.set_lattice(*cell);
     }
     let n = points.len();
 
@@ -44,7 +44,7 @@ pub fn construct_neighbor_list(
             idx_j.push(neighbor.node);
             dists.push(neighbor.distance);
             let offset = match neighbor.image {
-                Some(image) => [image[0] as f64, image[1] as f64, image[2] as f64],
+                Some(image) => [image[0], image[1], image[2]],
                 None => [0.0, 0.0, 0.0],
             };
             offsets.push(offset);
