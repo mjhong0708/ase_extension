@@ -1,7 +1,7 @@
 from ase_extension import ase_extension as _ext
 
 
-class LogFermiWallPotential:
+class LogFermiSphericalPotential:
     """Apply logfermi potential for confined molecular dynamics.
     Confines the system to be inside a sphere by applying wall potential.
 
@@ -14,7 +14,7 @@ class LogFermiWallPotential:
         self.beta = beta
 
     def _get_wall_energy_and_force(self, pos):
-        E, E_grad = _ext.log_fermi(pos, self.radius, self.temperature, self.beta)
+        E, E_grad = _ext.log_fermi_spherical_potential(pos, self.radius, self.temperature, self.beta)
         return E, -E_grad
 
     def adjust_forces(self, atoms, forces):

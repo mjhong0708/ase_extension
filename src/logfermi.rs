@@ -2,7 +2,7 @@ use ndarray::{Array2, ArrayView2, Axis};
 
 const K_B: f64 = 8.617_330_337_217_213e-5;
 
-pub fn log_fermi(
+pub fn log_fermi_spherical_potential(
     positions: &ArrayView2<f64>,
     radius: f64,
     temperature: f64,

@@ -2,7 +2,6 @@ pub mod logfermi;
 pub mod neighborlist;
 pub mod rmsd;
 
-use crate::rmsd::compute_minimum_rmsd;
 use ndarray::{Array2, Axis};
 use numpy::{IntoPyArray, PyArray1, PyArray2, PyReadonlyArray2};
 use pyo3::prelude::{pymodule, PyModule, PyResult, Python};
@@ -10,7 +9,7 @@ use pyo3::prelude::{pymodule, PyModule, PyResult, Python};
 #[pymodule]
 fn ase_extension(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
     #[pyfn(m)]
-    fn log_fermi<'py>(
+    fn log_fermi_spherical_potential<'py>(
         _py: Python<'py>,
         positions: PyReadonlyArray2<f64>,
         radius: f64,
@@ -18,12 +17,13 @@ fn ase_extension(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
         beta: f64,
     ) -> (f64, &'py PyArray2<f64>) {
         let positions = positions.as_array();
-        let (e, e_grad) = logfermi::log_fermi(&positions, radius, temperature, beta);
+        let (e, e_grad) =
+            logfermi::log_fermi_spherical_potential(&positions, radius, temperature, beta);
         (e, e_grad.into_pyarray(_py))
     }
 
     #[pyfn(m)]
-    fn rmsd<'py>(
+    fn compute_minimum_rmsd<'py>(
         _py: Python<'py>,
         positions_1: PyReadonlyArray2<f64>,
         positions_2: PyReadonlyArray2<f64>,
@@ -36,7 +36,7 @@ fn ase_extension(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
     ) {
         let positions_1 = positions_1.as_array();
         let positions_2 = positions_2.as_array();
-        let result = compute_minimum_rmsd(&positions_1, &positions_2, compute_gradient);
+        let result = rmsd::compute_minimum_rmsd(&positions_1, &positions_2, compute_gradient);
         let rmsd_grad = result.rmsd_grad.map(|x| x.into_pyarray(_py));
         (
             result.rmsd_val,
