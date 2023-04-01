@@ -17,7 +17,7 @@ class RMSD:
 
     def compute(self, atoms: Atoms, compute_gradient: bool = False):
         pos = atoms.positions
-        rmsd_val, rmsd_grad, U, c = _ext.rmsd(pos, self.ref_pos, compute_gradient)
+        rmsd_val, rmsd_grad, U, c = _ext.compute_minimum_rmsd(pos, self.ref_pos, compute_gradient)
         self.rmsd = rmsd_val
         self.rmsd_grad = rmsd_grad
 
