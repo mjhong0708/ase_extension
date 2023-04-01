@@ -3,7 +3,7 @@ from abc import ABCMeta, abstractmethod
 from ase_extension import ase_extension as _ext
 
 
-class WallPotential(metaclass=ABCMeta):
+class BiasPotential(metaclass=ABCMeta):
     @abstractmethod
     def _get_wall_energy_and_force(self, atoms):
         pass
@@ -23,7 +23,7 @@ class WallPotential(metaclass=ABCMeta):
         return 0
 
 
-class LogFermiSphericalWallPotential(WallPotential):
+class LogFermiSphericalWallPotential(BiasPotential):
     """Apply logfermi potential for confined molecular dynamics.
     Confines the system to be inside a sphere by applying wall potential.
 
