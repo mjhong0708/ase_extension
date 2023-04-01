@@ -1,7 +1,29 @@
+from abc import ABCMeta, abstractmethod
+
 from ase_extension import ase_extension as _ext
 
 
-class LogFermiSphericalPotential:
+class WallPotential(metaclass=ABCMeta):
+    @abstractmethod
+    def _get_wall_energy_and_force(self, atoms):
+        pass
+
+    def adjust_forces(self, atoms, forces):
+        _, F_wall = self._get_wall_energy_and_force(atoms)
+        forces += F_wall
+
+    def adjust_potential_energy(self, atoms):
+        E_wall, _ = self._get_wall_energy_and_force(atoms)
+        return E_wall
+
+    def adjust_positions(self, atoms, new):
+        pass
+
+    def get_removed_dof(self, atoms):
+        return 0
+
+
+class LogFermiSphericalWallPotential(WallPotential):
     """Apply logfermi potential for confined molecular dynamics.
     Confines the system to be inside a sphere by applying wall potential.
 
@@ -13,20 +35,6 @@ class LogFermiSphericalPotential:
         self.temperature = temperature
         self.beta = beta
 
-    def _get_wall_energy_and_force(self, pos):
-        E, E_grad = _ext.log_fermi_spherical_potential(pos, self.radius, self.temperature, self.beta)
+    def _get_wall_energy_and_force(self, atoms):
+        E, E_grad = _ext.log_fermi_spherical_potential(atoms.positions, self.radius, self.temperature, self.beta)
         return E, -E_grad
-
-    def adjust_forces(self, atoms, forces):
-        E_wall, F_wall = self._get_wall_energy_and_force(atoms.positions)
-        forces += F_wall
-
-    def adjust_potential_energy(self, atoms):
-        E_wall, F_wall = self._get_wall_energy_and_force(atoms.positions)
-        return E_wall
-
-    def adjust_positions(self, atoms, new):
-        pass
-
-    def get_removed_dof(self, atoms):
-        return 0
