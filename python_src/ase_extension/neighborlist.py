@@ -3,7 +3,7 @@ from typing import List, Literal, Union
 import numpy as np
 from ase import Atoms
 
-from ase_extension import ase_extension as _ext
+from ase_extension import _ext
 
 
 def _determine_parallel(atoms: Atoms) -> bool:

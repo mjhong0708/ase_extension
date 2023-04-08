@@ -1,6 +1,6 @@
 from abc import ABCMeta, abstractmethod
 
-from ase_extension import ase_extension as _ext
+from ase_extension import _ext
 
 
 class BiasPotential(metaclass=ABCMeta):

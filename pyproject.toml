@@ -8,7 +8,7 @@ dependencies = [
 
 [tool.maturin]
 python-source = "python_src"
-
+module-name = "ase_extension._ext"
 [tool.isort]
 profile = "black"
 

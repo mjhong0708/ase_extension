@@ -7,7 +7,7 @@ use numpy::{IntoPyArray, PyArray1, PyArray2, PyReadonlyArray2};
 use pyo3::prelude::{pymodule, PyModule, PyResult, Python};
 
 #[pymodule]
-fn ase_extension(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
+fn _ext(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
     #[pyfn(m)]
     fn log_fermi_spherical_potential<'py>(
         _py: Python<'py>,
