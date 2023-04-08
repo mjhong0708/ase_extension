@@ -1,4 +1,4 @@
-use ndarray::{Array2, ArrayView2, Axis};
+use ndarray::prelude::*;
 
 const K_B: f64 = 8.617_330_337_217_213e-5;
 

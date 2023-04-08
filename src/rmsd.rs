@@ -1,5 +1,5 @@
 use nalgebra::Matrix4;
-use ndarray::{Array1, Array2, ArrayView1, ArrayView2, Axis};
+use ndarray::prelude::*;
 
 pub struct RMSDResult {
     pub rmsd_val: f64,
