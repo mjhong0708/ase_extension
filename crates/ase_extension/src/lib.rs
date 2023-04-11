@@ -1,7 +1,6 @@
-pub mod logfermi;
-pub mod neighborlist;
-pub mod rmsd;
-
+use ase_extension_core::logfermi;
+use ase_extension_core::neighborlist;
+use ase_extension_core::rmsd;
 use ndarray::prelude::*;
 use numpy::{IntoPyArray, PyArray1, PyArray2, PyReadonlyArray2};
 use pyo3::prelude::*;

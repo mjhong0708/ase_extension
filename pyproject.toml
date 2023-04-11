@@ -9,6 +9,8 @@ dependencies = [
 [tool.maturin]
 python-source = "python_src"
 module-name = "ase_extension._ext"
+manifest-path = "crates/ase_extension/Cargo.toml"
+
 [tool.isort]
 profile = "black"
 
