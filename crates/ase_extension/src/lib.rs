@@ -1,3 +1,4 @@
+use ase_extension_core::io;
 use ase_extension_core::logfermi;
 use ase_extension_core::neighborlist;
 use ase_extension_core::rmsd;
@@ -8,6 +9,7 @@ use pyo3::prelude::*;
 // Module declaration
 #[pymodule]
 fn _ext(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
+    m.add_wrapped(wrap_pyfunction!(read_extxyz))?;
     m.add_wrapped(wrap_pyfunction!(log_fermi_spherical_potential))?;
     m.add_wrapped(wrap_pyfunction!(compute_minimum_rmsd))?;
     m.add_wrapped(wrap_pyfunction!(neighbor_list))?;
@@ -15,6 +17,39 @@ fn _ext(_py: Python<'_>, m: &PyModule) -> PyResult<()> {
 }
 
 // Member functions
+#[pyfunction]
+fn read_extxyz<'py>(
+    _py: Python<'py>,
+    filename: &str,
+    start: Option<usize>,
+    end: Option<usize>,
+    step: Option<usize>,
+) -> Vec<(
+    Vec<String>,
+    &'py PyArray2<f64>,
+    Option<&'py PyArray2<f64>>,
+    Option<f64>,
+    Option<&'py PyArray2<f64>>,
+    Option<&'py PyArray2<f64>>,
+    Option<&'py PyArray2<f64>>,
+)> {
+    let atoms_list = io::read_extxyz(filename, start, end, step).unwrap();
+    atoms_list
+        .into_iter()
+        .map(|atoms| {
+            (
+                atoms.symbols,
+                atoms.positions.into_pyarray(_py),
+                atoms.cell.map(|x| x.into_pyarray(_py)),
+                atoms.energy,
+                atoms.forces.map(|x| x.into_pyarray(_py)),
+                atoms.stress.map(|x| x.into_pyarray(_py)),
+                atoms.momenta.map(|x| x.into_pyarray(_py)),
+            )
+        })
+        .collect()
+}
+
 #[pyfunction]
 fn log_fermi_spherical_potential<'py>(
     _py: Python<'py>,
