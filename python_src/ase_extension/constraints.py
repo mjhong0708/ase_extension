@@ -50,7 +50,7 @@ class LogFermiSphericalWallPotential(BiasPotential):
         return E, -E_grad
 
 
-class SHAKEConstraint(FixConstraint):
+class SHAKE(FixConstraint):
     """
     Implementation of SHAKE algorithm as a constraint in ASE.
     Maintains fixed distances between specified pairs of atoms.
