@@ -1,21 +1,25 @@
-from abc import ABCMeta, abstractmethod
+from abc import ABC, abstractmethod
 
 from ase_extension import _ext
 
 
-class BiasPotential(metaclass=ABCMeta):
+class BiasPotential(ABC):
+    def index_shuffle(self, atoms, ind):
+        raise NotImplementedError
+
     @abstractmethod
-    def _get_wall_energy_and_force(self, atoms):
+    def _get_bias_energy_and_force(self, atoms):
         pass
 
     def adjust_forces(self, atoms, forces):
-        _, F_wall = self._get_wall_energy_and_force(atoms)
-        forces += F_wall
+        _, F_bias = self._get_bias_energy_and_force(atoms)
+        forces += F_bias
 
     def adjust_potential_energy(self, atoms):
-        E_wall, _ = self._get_wall_energy_and_force(atoms)
-        return E_wall
+        E_bias, _ = self._get_bias_energy_and_force(atoms)
+        return E_bias
 
+    @abstractmethod
     def adjust_positions(self, atoms, new):
         pass
 
