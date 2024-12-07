@@ -39,6 +39,6 @@ class LogFermiSphericalWallPotential(BiasPotential):
         self.temperature = temperature
         self.beta = beta
 
-    def _get_wall_energy_and_force(self, atoms):
+    def _get_bias_energy_and_force(self, atoms):
         E, E_grad = _ext.log_fermi_spherical_potential(atoms.positions, self.radius, self.temperature, self.beta)
         return E, -E_grad
